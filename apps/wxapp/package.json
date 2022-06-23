@@ -1,0 +1,62 @@
+{
+  "name": "wxapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "taro wxapp",
+  "scripts": {
+    "build": "NODE_ENV=production taro build --type weapp",
+    "dev": "NODE_ENV=development taro build --type weapp --watch",
+    "gen:icon": "npx iconfont-taro",
+    "gen:page": "node ./scripts/page.js",
+    "gen:comp": "node ./scripts/comp.js"
+  },
+  "browserslist": [
+    "last 3 versions",
+    "Android >= 4.1",
+    "ios >= 8"
+  ],
+  "author": "jay4qqqq@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "@ant-design/colors": "^6.0.0",
+    "@babel/runtime": "^7.7.7",
+    "@tarojs/components": "3.4.12",
+    "@tarojs/plugin-framework-react": "3.4.12",
+    "@tarojs/plugin-html": "3.4.12",
+    "@tarojs/runtime": "3.4.12",
+    "@tarojs/taro": "3.4.12",
+    "ahooks": "^2.10.12",
+    "blurhash": "^1.1.5",
+    "classnames": "^2.2.6",
+    "dayjs": "latest",
+    "query-string": "^6.13.1",
+    "react": "17.0.0",
+    "zustand": "^3.6.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "@dcasia/mini-program-tailwind-webpack-plugin": "^1.4.2",
+    "@tarojs/cli": "3.4.12",
+    "@tarojs/mini-runner": "3.4.12",
+    "@tarojs/webpack-runner": "3.4.12",
+    "@types/classnames": "^2.2.10",
+    "@types/react": "^17.0.2",
+    "@types/webpack-env": "^1.13.6",
+    "@typescript-eslint/eslint-plugin": "^4.15.1",
+    "@typescript-eslint/parser": "^4.15.1",
+    "axios": "^0.21.0",
+    "babel-preset-taro": "3.4.12",
+    "chalk": "^4.1.0",
+    "dotenv": "^16.0.1",
+    "eslint": "^6.8.0",
+    "eslint-config-taro": "3.4.12",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "stylelint": "9.3.0",
+    "taro-iconfont-cli": "3.2.1",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
+    "typescript": "^4.1.0",
+    "zx": "^4.2.0"
+  }
+}

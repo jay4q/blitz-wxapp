@@ -1,0 +1,56 @@
+# 微信小程序｜云函数 RESTful API
+
+## 准备
+
+> 准备一次即可，不需要重复
+
+1. 执行 `yarn` 安装依赖
+2. 复制 [.env.example](./.env.example) 为 `.env.dev` 文件，并根据注释配置环境变量。如需要上线，同时准备 `.env.prod` 文件
+3. 在当前项目所属根目录下，同时准备 `wxapp` 项目
+4. 完成步骤 3 后，执行一次 `yarn dev` 确认编译通过后，即完成准备工作
+
+## 开发
+
+1. 执行 `yarn dev` 开始开发
+2. 将小程序开发者工具指向上面创建的 `wxapp-dist` 文件
+3. 在小程序开发者工具开发界面，找到 `functions/` 下对应的云函数，右键 **开启云函数本地调试**
+   1. 首次请求会超时（若代码中包含连接云数据库的请求），包括热重载后的首次请求也是，目前还未找到好的解决方法
+      1. 使用 `wx-server-sdk` 接入云数据库，不会导致上述问题。但是这个 sdk 定义不够全，对 typescript 用户非常不友好
+   2. 如果在「云函数本地调试」启动的情况下重新 `yarn dev` 会导致出现异常，这时重新点开右上角 **开启本地调试即可**
+
+## 部署
+
+> 交给项目管理员实施
+
+1. 确保已新增 `.env.prod` 文件并配置所需的环境变量
+2. 确保已安装 [cloudbase-cli](https://docs.cloudbase.net/cli-v1/install.html)
+3. 使用 `tcb login` 登录相应的腾讯云账号（如果已登录则可以忽略）
+4. 执行 `yarn deploy` 命令部署至线上（默认即全量发布）
+
+## 运维
+
+1. 登录 [腾讯云云开发控制台](https://console.cloud.tencent.com/) 对应云环境（也可以是小程序开发者工具，根据个人习惯）
+2. 进入指定云函数查看「日志」和「监控」
+3. 可以根据前端响应头里的 `x-tencent-scf-request-id` 属性，在日志中定位对应请求，查看输出的结果
+
+## 注意事项
+
+1. 由于采用云函数作为服务端，因此微信小程序侧的请求，服务端天然地能够获取请求发起者的 unionid 和 openid。因此：
+   1. 我们不强求用户显式地去登录，只有在需要昵称和头像的地方（例如邀请好友）才会显式地要求用户授权个人资料
+   2. 仅当用户发起需要用户态的请求，服务端才会尝试为该用户创建一个平台上的账号
+
+## 开发要求和建议
+
+- 要求：禁止同时发起多个用户态相关的请求（特别是页面初始化过程中）。这样保证前端在调用用户态相关请求时，路由中间件 `user-guard` 不会重复创建用户
+  - 如果初始化时必须多个请求，可以串行执行每次一个
+- 要求：禁止使用 `export default` 而是直接使用 `export` 导出模块
+- 要求：修改环境变量后，要重新启动
+- 建议：使用 [node-sdk](https://docs.cloudbase.net/database/introduce.html) 接入腾讯云云开发/微信云开发的数据库资源；其它微信开放服务，再用 [wx-server-sdk](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/functions/wx-server-sdk.html) 接入。理由是 wx-server-sdk 太搓了
+
+## 依赖
+
+- [koa-router](https://github.com/koajs/router/blob/master/API.md)
+- [云函数配置](https://docs.cloudbase.net/cli-v1/functions/configs.html)
+- [云函数限制](https://cloud.tencent.com/document/product/876/47177#.E4.BA.91.E5.87.BD.E6.95.B0)
+- [云数据库性能优化](https://developers.weixin.qq.com/community/business/doc/00068218a682088d17ca593c45b40d)
+- [ncc 将 JS 工程包打包至一个文件](https://github.com/vercel/ncc)

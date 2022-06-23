@@ -1,0 +1,21 @@
+.DS_Store
+deploy_versions/
+.temp/
+.rn_temp/
+logs/
+npm-debug.log
+yarn-error.log
+node_modules/
+coverage/
+dist/
+.idea/
+*.sw*
+*.un~
+.tsbuildinfo
+.tsbuildinfo.*
+.linaria-cache/
+yarn.lock
+
+# env
+.env.dev
+.env.prod
