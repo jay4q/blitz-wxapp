@@ -1,8 +1,8 @@
-import { uuid } from '@/utils/utils'
 import { Image, View } from '@tarojs/components'
 import { ImageProps } from '@tarojs/components/types/Image'
 import { createOffscreenCanvas } from '@tarojs/taro'
 import { decode } from 'blurhash'
+import { uuid } from 'db'
 import { PureComponent } from 'react'
 
 type Props = Omit<ImageProps, 'src'> & {

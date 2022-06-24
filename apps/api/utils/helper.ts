@@ -45,7 +45,3 @@ export const sysTime = {
     }
   },
 }
-
-export const isArrayEmpty = (arr) => !Array.isArray(arr) || arr.length === 0
-
-export const getEncodeId = (id: string) => id.replace(/^(.{3})(.+)(.{4})$/, '$1***$3')

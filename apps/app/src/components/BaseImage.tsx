@@ -1,5 +1,4 @@
 import { BlurImage } from './BlurImage'
-import { uuid } from '@/utils/utils'
 import { Image, ImageProps } from '@tarojs/components'
 import {
   createIntersectionObserver,
@@ -10,6 +9,7 @@ import {
   getCurrentInstance,
 } from '@tarojs/taro'
 import classNames from 'classnames'
+import { uuid } from 'db'
 import qs from 'query-string'
 import { FunctionComponent, PureComponent } from 'react'
 

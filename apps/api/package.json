@@ -16,7 +16,8 @@
     "dotenv": "^10.0.0",
     "koa": "^2.13.1",
     "serverless-http": "^2.7.0",
-    "wx-server-sdk": "^2.5.3"
+    "wx-server-sdk": "^2.5.3",
+    "db": "*"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",

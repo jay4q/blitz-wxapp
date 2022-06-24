@@ -31,7 +31,8 @@
     "dayjs": "latest",
     "query-string": "^6.13.1",
     "react": "17.0.0",
-    "zustand": "^3.6.4"
+    "zustand": "^3.6.4",
+    "db": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
