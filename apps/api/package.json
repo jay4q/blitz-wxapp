@@ -1,5 +1,5 @@
 {
-  "name": "wxapp-api",
+  "name": "api",
   "version": "1.0.0",
   "description": "nodejs restful function api",
   "scripts": {

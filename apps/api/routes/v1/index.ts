@@ -6,7 +6,7 @@ const v1 = new Router({
 })
 
 v1.get('/alive', async (ctx) => {
-  respond.ok(ctx, 'hello world')
+  respond.ok(ctx, 'Hello World 🤖️')
 })
 
 export { v1 }
