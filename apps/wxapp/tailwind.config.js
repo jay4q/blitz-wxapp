@@ -1,10 +1,5 @@
-import { defineConfig } from 'windicss/helpers'
-
-export default defineConfig({
-  prefixer: false,
-  extract: {
-    exclude: ['node_modules', '.git', 'dist', 'scripts'],
-  },
+module.exports = {
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     colors: {
       gray: {
@@ -37,8 +32,5 @@ export default defineConfig({
     },
     extend: {},
   },
-  corePlugins: {
-    // 禁用掉在小程序环境中不可能用到的 plugins
-    container: false,
-  },
-})
+  plugins: [],
+}
