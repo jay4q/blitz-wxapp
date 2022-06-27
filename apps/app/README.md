@@ -13,9 +13,6 @@
 # 创建页面组件
 yarn g:page path/to/new-page [页面标题]
 
-# 创建组件
-yarn g:comp path/to/MyComponent [组件说明]
-
 # 更新图标库
 yarn g:icon
 ```
