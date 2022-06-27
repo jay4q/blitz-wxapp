@@ -5,7 +5,6 @@
     "target": "ES2018",
     "moduleResolution": "node",
     "module": "commonjs",
-    "outDir": "./dist",
     "removeComments": true,
     "noImplicitAny": false,
     "esModuleInterop": true,
@@ -24,12 +23,7 @@
       "utils": [
         "utils"
       ]
-    },
-    "plugins": [
-      {
-        "transform": "typescript-transform-paths"
-      }
-    ]
+    }
   },
   "compileOnSave": false,
   "includes": [
@@ -38,9 +32,6 @@
     "utils/**/*",
     "typings/**/*",
     "**/*.ts"
-  ],
-  "files": [
-    "app.ts",
   ],
   "exclude": [
     "node_modules",

@@ -1,13 +1,12 @@
 # 微信云函数
 
-## 部署
+## 本地开发
 
-> 交给项目管理员实施
+使用 [tsup](https://github.com/egoist/tsup) 打包项目并支持热重载。配置文件是 `tsup.config.ts`，默认配置已经够了，若需要设置其它配置，请参考[官方文档](https://paka.dev/npm/tsup@6.1.2/api#9286de5cf1f8699)
 
-1. 确保已新增 `.env.prod` 文件并配置所需的环境变量
-2. 确保已安装 [cloudbase-cli](https://docs.cloudbase.net/cli-v1/install.html)
-3. 使用 `tcb login` 登录相应的腾讯云账号（如果已登录则可以忽略）
-4. 执行 `yarn deploy` 命令部署至线上（默认即全量发布）
+## 产线打包
+
+使用 [ncc](https://github.com/vercel/ncc) 打包项目。支持混淆和压缩代码，保证产线云函数相对安全
 
 ## 运维
 
@@ -20,6 +19,7 @@
 1. 由于采用云函数作为服务端，因此微信小程序侧的请求，服务端天然地能够获取请求发起者的 unionid 和 openid。因此：
    1. 我们不强求用户显式地去登录，只有在需要昵称和头像的地方（例如邀请好友）才会显式地要求用户授权个人资料
    2. 仅当用户发起需要用户态的请求，服务端才会尝试为该用户创建一个平台上的账号
+2. 暂时请勿配置 tsconfig.json 里的 paths 参数为 `*`，否则会出现 [意想不到的问题](https://github.com/egoist/tsup/issues/303)
 
 ## 开发要求和建议
 

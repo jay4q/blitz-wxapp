@@ -3,30 +3,29 @@
   "version": "1.0.0",
   "description": "nodejs restful function api",
   "scripts": {
-    "dev": "zx ./scripts/dev.mjs",
-    "build": "ttsc -P tsconfig.json",
+    "dev": "tsup --format esm,cjs --watch --dts",
+    "build": "ncc build index.js -s -m -o ../../wxapp-dist/functions/wxapp-api",
     "deploy": "zx ./scripts/deploy.mjs"
   },
-  "author": "jay4q.com",
+  "author": "jay4qqqq@gmail.com",
   "license": "ISC",
   "dependencies": {
     "@cloudbase/node-sdk": "^2.7.1",
     "@koa/router": "^10.0.0",
     "dayjs": "latest",
+    "db": "*",
     "dotenv": "^10.0.0",
     "koa": "^2.13.1",
     "serverless-http": "^2.7.0",
-    "wx-server-sdk": "^2.5.3",
-    "db": "*"
+    "wx-server-sdk": "^2.5.3"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",
     "@types/koa__router": "^8.0.7",
     "@types/node": "^16.3.2",
     "@vercel/ncc": "^0.33.0",
-    "ttypescript": "^1.5.12",
+    "tsup": "latest",
     "typescript": "4.2.3",
-    "typescript-transform-paths": "2.2.3",
     "zx": "^4.2.0"
   }
 }
