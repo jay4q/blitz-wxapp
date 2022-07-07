@@ -3,8 +3,8 @@ import { respond } from 'utils/helper'
 
 /**
  * @description 全局中间件：将云函数的 http 集成请求 转换为正常的 http 请求。因此在客户端使用 callFunction 时，应当遵守 https://docs.cloudbase.net/service/access-cloud-function.html 集成请求的格式
- * @param ctx 
- * @param next 
+ * @param ctx
+ * @param next
  */
 export const restify = async (ctx: Context, next: Next) => {
   const event = (ctx.req as any).apiGateway.event
@@ -17,6 +17,7 @@ export const restify = async (ctx: Context, next: Next) => {
   ctx.request.method = event.httpMethod
   ctx.request.query = event.queryStringParameters
   ctx.request.header = event.headers
+  ctx.request.search = event.path.split('?')[1] || ''
 
   await next()
 }
