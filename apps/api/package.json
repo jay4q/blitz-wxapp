@@ -4,7 +4,7 @@
   "description": "nodejs restful function api",
   "scripts": {
     "dev": "tsup --format esm,cjs --watch --dts",
-    "build": "ncc build index.js -s -m -o ../../wxapp-dist/functions/wxapp-api",
+    "build": "ncc build index.js --minify --source-map --out ../../wxapp-dist/functions/wxapp-api",
     "deploy": "zx ./scripts/deploy.mjs"
   },
   "author": "jay4qqqq@gmail.com",
