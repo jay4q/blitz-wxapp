@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 import * as path from 'path'
 
-const envFile = '.env.local'
+const envFile = '.env.dev'
 const rootDir = '../../wxapp-dist/functions'
 
 const env = config({
