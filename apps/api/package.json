@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "nodejs restful function api",
   "scripts": {
-    "dev": "tsup --format esm,cjs --watch --dts",
-    "build": "ncc build index.js --minify --source-map --out ../../wxapp-dist/functions/wxapp-api",
+    "dev": "zx ./scripts/dev.mjs",
     "deploy": "zx ./scripts/deploy.mjs"
   },
   "author": "jay4qqqq@gmail.com",
