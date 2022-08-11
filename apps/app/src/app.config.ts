@@ -6,7 +6,7 @@ export default {
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#f5f5f5',
-    navigationBarTitleText: process.env.TARO_PUBLIC_APP_NAME,
+    navigationBarTitleText: process.env.WXAPP_PUBLIC_APP_NAME,
     navigationBarTextStyle: 'black',
   },
   usingComponents: {

@@ -6,7 +6,7 @@
 
 - `apps/app`: 微信小程序
 - `apps/api`: 模拟 RESTful 能力的微信小程序云函数
-- `packages/db`: 表和表结构定义，还有一些常用函数
+- `packages/db`: 表、表结构定义、数据传输对象定义(dto)等，还有一些常用函数
 
 ## 💻 准备开发
 
@@ -19,18 +19,18 @@
 
 ### 配置环境变量
 
-> 注：目前需要分开配置，后面可以考虑合并一下
-
-1. 需要同时配置 `apps/app` 和 `apps/api` 的环境变量
-2. 进入 `apps/app`，复制 .env.example 为 .env.dev 和 .env.prod，分别对应本地/研线和产线环境
-3. 同理 `apps/api`
+1. 复制根目录的 .env.example 为 .env.dev 和 .env.prod，分别对应本地/研线和产线环境
 
 ### 开始开发
 
-1. 执行 `yarn dev`
-2. 确认编译无误后，将小程序开发者工具指向刚创建的 `wxapp-dist` 文件
-3. 在小程序开发者工具，点击右上角 详情->启用代码自动热重载，设置为关闭，否则会出现白屏问题
-4. 在小程序开发者工具，右键 wxapp-dist/functions/wxapp-api -> 开启云函数本地调试，即可在本地调试云函数并让小程序连接本地云函数
+1. 执行 `yarn dev` 即可
+2. 当然也可以选择独立启动
+   1. `yarn workspace api dev` 执行云函数开发
+   2. `yarn workspace app dev` 执行小程序开发
+   3. 需要注意的是，独立启动前，建议先执行 `yarn workspace db build` 打包一份最新的定义
+3. 确认编译无误后，将小程序开发者工具指向刚创建的 `wxapp-dist` 文件
+4. 在小程序开发者工具，点击右上角 详情->启用代码自动热重载，设置为关闭，否则会出现白屏问题
+5. 在小程序开发者工具，右键 wxapp-dist/functions/wxapp-api -> 开启云函数本地调试，即可在本地调试云函数并让小程序连接本地云函数
    1. 若代码中包含连接云数据库的请求，首次请求可能会超时，包括热重载后的首次请求也是，目前还未找到好的解决方法
    2. 使用 `wx-server-sdk` 接入云数据库，不会导致上述问题。但是这个 sdk 定义不够全，对 typescript 用户非常不友好
 
@@ -54,14 +54,15 @@
 
 ## 📚 文档
 
-- [Tsup](https://tsup.egoist.sh/)
-- [Taro](https://github.com/NervJS/taro)
+- [tsup](https://tsup.egoist.sh/)
+- [taro](https://github.com/NervJS/taro)
 
 ## 📒 Todo
 
-1. 环境变量合并
+暂无
 
 ### 2022.08.11
 
-- feat: 🚀 将 taro 升级至 3.5+
-- feat: 🚀 优化部署流程
+- [x] feat: 🚀 将 taro 升级至 3.5+
+- [x] feat: 🚀 优化部署流程
+- [x] feat: 🚀 统一环境变量

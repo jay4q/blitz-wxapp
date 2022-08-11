@@ -7,12 +7,11 @@ let _app: CloudBase
 let _db: Database.Db
 
 const env = config({
+  // ! 虽然环境变量放在了 monorepo 根目录，但实际上最终编译后，输出在 api 文件根目录
   path: path.resolve(process.cwd(), constConfig.isLocal ? '.env.dev' : '.env.prod'),
 })?.parsed
 
-export const TCB_ENVID = env?.TCB_ENVID || ''
-export const TCB_SECRET_ID = env?.TCB_SECRET_ID || ''
-export const TCB_SECRET_KEY = env?.TCB_SECRET_KEY || ''
+const tcbEnv = env?.WXAPP_PUBLIC_TCB_ENV || ''
 
 /**
  * 获取云开发应用实例
@@ -20,13 +19,11 @@ export const TCB_SECRET_KEY = env?.TCB_SECRET_KEY || ''
  */
 export const getCloudApp = () => {
   if (!_app) {
-    let config: ICloudBaseConfig = { env: TCB_ENVID }
+    let config: ICloudBaseConfig = { env: tcbEnv }
 
     if (constConfig.isLocal) {
       config = {
         ...config,
-        secretId: TCB_SECRET_ID,
-        secretKey: TCB_SECRET_KEY,
       }
     }
 

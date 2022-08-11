@@ -18,12 +18,12 @@ export const callFunction = async <Result = any>(path: string, options?: CallFun
     let finalHeaders = headers || {}
 
     const resp = await $callFunction({
-      name: process.env.TARO_PUBLIC_TCB_FUNC,
+      name: process.env.WXAPP_PUBLIC_TCB_FUNC,
       data: {
         body: body,
         httpMethod: method,
         queryStringParameters: params,
-        path: '/' + process.env.TARO_PUBLIC_TCB_FUNC_VERSION + path,
+        path: '/' + process.env.WXAPP_PUBLIC_TCB_FUNC_VERSION + path,
         headers: finalHeaders,
       },
     })

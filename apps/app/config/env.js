@@ -4,7 +4,7 @@ const path = require('path')
 const envFile = process.env.NODE_ENV === 'development' ? '.env.dev' : '.env.prod'
 
 const env = config({
-  path: path.resolve(process.cwd(), envFile),
+  path: path.resolve(process.cwd(), '../../', envFile),
 })
 
 const parsedEnv = env?.parsed || {}

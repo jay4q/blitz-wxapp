@@ -1,12 +1,8 @@
 # 微信云函数
 
-## 本地开发
+## 本地/产线打包
 
-使用 [tsup](https://github.com/egoist/tsup) 打包项目并支持热重载。配置文件是 `tsup.config.ts`，默认配置已经够了，若需要设置其它配置，请参考[官方文档](https://paka.dev/npm/tsup@6.1.2/api#9286de5cf1f8699)
-
-## 产线打包
-
-使用 [ncc](https://github.com/vercel/ncc) 打包项目。支持混淆和压缩代码，保证产线云函数相对安全
+均使用 [ncc](https://github.com/vercel/ncc) 打包项目。支持混淆和压缩代码，保证产线云函数相对安全
 
 ## 运维
 
@@ -35,4 +31,4 @@
 - [云函数配置](https://docs.cloudbase.net/cli-v1/functions/configs.html)
 - [云函数限制](https://cloud.tencent.com/document/product/876/47177#.E4.BA.91.E5.87.BD.E6.95.B0)
 - [云数据库性能优化](https://developers.weixin.qq.com/community/business/doc/00068218a682088d17ca593c45b40d)
-- [ncc 将 JS 工程包打包至一个文件](https://github.com/vercel/ncc)
+- [ncc](https://github.com/vercel/ncc)

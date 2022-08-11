@@ -1,9 +1,9 @@
 {
-  "envId": "{{env.TCB_ENVID}}",
+  "envId": "{{env.WXAPP_PUBLIC_TCB_ENV}}",
   "functionRoot": "./functions",
   "functions": [
     {
-      "name": "{{env.TCB_FUNC_NAME}}",
+      "name": "{{env.WXAPP_PUBLIC_TCB_FUNC}}",
       "timeout": 10,
       "runtime": "Nodejs12.16",
       "installDependency": false,
