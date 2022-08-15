@@ -3,7 +3,7 @@ import { constConfig } from 'utils/config'
 import { BusinessError } from 'utils/helper'
 
 /**
- * 统一的异常处理（全局中间件）
+ * 【全局中间件】集中式的异常处理
  * @param ctx
  * @param next
  */

@@ -6,7 +6,7 @@
 
 - `apps/app`: 微信小程序
 - `apps/api`: 模拟 RESTful 能力的微信小程序云函数
-- `packages/db`: 表、表结构定义、数据传输对象定义(dto)等，还有一些常用函数
+- `packages/db`: 表、表结构定义、数据传输对象定义(dto)等，还有可以放一些常用函数
 
 ## 💻 准备开发
 
@@ -55,7 +55,9 @@
 ## 📚 文档
 
 - [tsup](https://tsup.egoist.sh/)
+- [ncc](https://github.com/vercel/ncc)
 - [taro](https://github.com/NervJS/taro)
+- [tailwindcss](https://tailwindcss.com/)
 
 ## 📒 Todo
 
