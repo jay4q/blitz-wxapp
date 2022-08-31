@@ -1,4 +1,5 @@
 import { getFileSystemManager, env } from '@tarojs/taro'
+import qs from 'query-string'
 
 /**
  * 去除对象中的无效参数
@@ -55,4 +56,16 @@ export const getLoadMoreReq = (r?: { list: any[]; [key: string]: any }) => {
     pageSize: 10,
     current: nextPage,
   }
+}
+
+/**
+ * 获取图片的高宽比
+ * @description 一般来说宽都是确定的，但是高度是要计算的
+ * @param url
+ */
+export const getImageRatio = (url?: string) => {
+  if (!url) return 1
+
+  const query = qs.parseUrl(url).query
+  return (Number(query['height']) || 1) / (Number(query['width']) || 1)
 }
