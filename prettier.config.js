@@ -3,7 +3,7 @@ module.exports = {
   singleQuote: true,
   jsxSingleQuote: true,
   jsxBracketSameLine: false,
-  arrowParens: "always",
+  arrowParens: 'always',
   printWidth: 128,
-  plugins: [require('@trivago/prettier-plugin-sort-imports')],
-};
+  plugins: [require('@trivago/prettier-plugin-sort-imports'), require('prettier-plugin-tailwindcss')],
+}
