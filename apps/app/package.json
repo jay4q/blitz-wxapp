@@ -20,7 +20,7 @@
     "@tarojs/react": "3.5.1",
     "@tarojs/runtime": "3.5.1",
     "@tarojs/taro": "3.5.1",
-    "ahooks": "2.10.14",
+    "ahooks": "3.7.0",
     "blurhash": "^1.1.5",
     "classnames": "^2.2.6",
     "dayjs": "latest",
@@ -31,8 +31,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "0.5.5",
     "@dcasia/mini-program-tailwind-webpack-plugin": "1.5.2",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.5",
     "@tarojs/cli": "3.5.1",
     "@tarojs/webpack5-runner": "3.5.1",
     "@types/classnames": "^2.2.10",

@@ -1,34 +1,31 @@
-import { checkAlive } from '@/apis/alive'
-import { BaseImage } from '@/components/BaseImage'
-import { showModal } from '@tarojs/taro'
-import { useRequest } from 'ahooks'
-import classNames from 'classnames'
+import { Masonry } from '@/components/Masonry'
+import { useInfiniteScroll } from 'ahooks'
 import { FunctionComponent } from 'react'
+import { mockApi } from './mock'
+
+const pageSize = 6
 
 // 首页
 const Index: FunctionComponent = () => {
-  useRequest(async () => {
-    const resp = await checkAlive()
-
-    if (resp.data) {
-      showModal({
-        title: '请求内容',
-        content: resp.data,
-      })
+  const { data, loading, loadingMore, loadMore, noMore } = useInfiniteScroll(
+    async (d) => {
+      const current = Math.ceil((d?.list.length || 0) / pageSize)
+      const resp = await mockApi(current)
+      return {
+        list: resp.data?.list || [],
+        total: Number(resp.data?.total || d?.total || 0),
+      }
+    },
+    {
+      isNoMore: (d) => (d?.list.length || 0) >= Number(d?.total || 0),
     }
+  )
 
-    return resp
-  })
+  const list = data?.list || []
 
   return (
     <>
-      <div className={classNames('w-[256px] h-[128px] bg-gray-5', 'text-primary-6 leading-[128px] font-bold text-center')}>
-        测试按钮
-      </div>
-      <BaseImage
-        wh='256,512'
-        src='https://6d75-museum-1g8w6o4l75c810d8-1306317407.tcb.qcloud.la/admin-uploads/e4ddbb3662578ff70058c49e60a3ea88/2022-04-29/f48e620fff0645ec94c7109aed902dd8.JPG?color=%23d0a472&hash=UeKd%40%3BRj~qt6s%3Aj%5BWCjsogoft6j%5BWXayoKay&height=4227&width=3248'
-      />
+      <Masonry data={list} noMore={noMore} loading={loading || loadingMore} onLoadMore={loadMore} />
     </>
   )
 }

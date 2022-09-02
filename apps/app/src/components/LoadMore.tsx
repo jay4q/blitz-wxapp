@@ -13,7 +13,7 @@ type Props = {
  * 加载更多状态按钮
  */
 export const LoadMore = memo<Props>(({ loading, noMore, onLoadMore, className }) => {
-  const actionText = loading ? '🏄 加载中' : noMore ? '🤷‍♂️ 没有更多啦' : '👉 点击加载更多'
+  const actionText = loading ? '🏄 加载中' : noMore ? '🤗 没有更多啦' : '👉 点击加载更多'
 
   const onClick = () => {
     if (!loading && !noMore) {
