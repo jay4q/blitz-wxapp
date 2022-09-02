@@ -1,6 +1,6 @@
 export interface IResponse<T = any> {
   code: number
-  message: number
+  message: string
   data?: T
 }
 
@@ -9,7 +9,7 @@ export interface IPagingReq {
   pageSize: number
 }
 
-export interface IPaginResp<T = any> {
-  total: 0
+export interface IPagingResp<T = any> {
+  total: number
   list: T[]
 }
