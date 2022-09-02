@@ -1,66 +1,51 @@
 import { BlurImage } from './BlurImage'
 import { Image, ImageProps } from '@tarojs/components'
-import {
-  createIntersectionObserver,
-  Current,
-  previewImage,
-  IntersectionObserver,
-  eventCenter,
-  getCurrentInstance,
-} from '@tarojs/taro'
+import { createIntersectionObserver, Current, previewImage, IntersectionObserver, nextTick } from '@tarojs/taro'
 import classNames from 'classnames'
 import { uuid } from 'db'
 import qs from 'query-string'
 import { FunctionComponent, PureComponent } from 'react'
 
-const Loading: FunctionComponent<{ loading: boolean }> = ({ loading }) => (
-  <div
-    className={classNames(
-      'absolute inset-0 w-full h-full transition-opacity duration-300 opacity-100 skeleton',
-      !loading && 'opacity-0'
-    )}
-  />
-)
-
-type BaseImageState = {
+type State = {
   /**
-   * @description 图片是否进入视野
+   * 图片是否进入视野
    */
   inView: boolean
 
   /**
-   * @description 图片是否加载完成
+   * 图片是否加载完成
    */
   isLoaded: boolean
 }
 
-type BaseImageProps = ImageProps & {
+type Props = ImageProps & {
   zoomable?: boolean
 
   /**
-   * @description blurhash 值
+   * blurhash
    * @see https://github.com/woltapp/blurhash
    */
   hash?: string
 
   /**
-   * @description 点击后可预览的图片组
+   * 点击后可预览的图片组
    */
   previewUrls?: string[]
 
   /**
-   * @description 用于快速设置图片宽高，通过,分割；如果不填写单位，将默认使用 rpx
+   * 用于快速设置图片宽高
+   * @description 通过,分割；如果不填写单位，将默认使用 rpx
    * @example 128,64
    */
   wh: string
 }
 
-export class BaseImage extends PureComponent<BaseImageProps, BaseImageState> {
-  static defaultProps: Partial<BaseImageProps> = {
+export class BaseImage extends PureComponent<Props, State> {
+  static defaultProps: Partial<Props> = {
     zoomable: false,
   }
 
-  readonly state: BaseImageState = {
+  readonly state: State = {
     inView: false,
     isLoaded: false,
   }
@@ -144,7 +129,7 @@ export class BaseImage extends PureComponent<BaseImageProps, BaseImageState> {
         {inView && (
           <Image
             {...restProps}
-            className='absolute inset-0 w-full h-full'
+            className='absolute inset-0 h-full w-full'
             mode={restProps.mode || 'aspectFill'}
             onLoad={this.onLoadComplete}
           />
@@ -153,7 +138,7 @@ export class BaseImage extends PureComponent<BaseImageProps, BaseImageState> {
           <BlurImage
             hash={this.hash}
             className={classNames(
-              'absolute inset-0 w-full h-full transition-opacity duration-300 opacity-100 skeleton',
+              'absolute inset-0 h-full w-full opacity-100 transition-opacity duration-300',
               isLoaded && 'opacity-0'
             )}
           />
@@ -166,8 +151,7 @@ export class BaseImage extends PureComponent<BaseImageProps, BaseImageState> {
 
   componentDidMount() {
     // @see https://docs.taro.zone/docs/react-page#onready-
-    const onReadyEventId = getCurrentInstance().router!.onReady
-    eventCenter.once(onReadyEventId, () => {
+    nextTick(() => {
       this.observer = createIntersectionObserver(Current.page!)
       this.observer.relativeToViewport({ bottom: 0 }).observe('#' + this.imgId, (res) => {
         if (res.boundingClientRect.top >= 0) {
@@ -176,7 +160,12 @@ export class BaseImage extends PureComponent<BaseImageProps, BaseImageState> {
         }
       })
     })
-    // nextTick(() => {
+
+    // @see https://docs.taro.zone/docs/react-page#onready-
+    // const onReadyEventId = getCurrentInstance().router!.onReady
+    // console.log('run?', onReadyEventId)
+    // eventCenter.once(onReadyEventId, () => {
+    //   console.log('run')
     //   this.observer = createIntersectionObserver(Current.page!)
     //   this.observer.relativeToViewport({ bottom: 0 }).observe('#' + this.imgId, (res) => {
     //     if (res.boundingClientRect.top >= 0) {
@@ -191,3 +180,12 @@ export class BaseImage extends PureComponent<BaseImageProps, BaseImageState> {
     this.disconnectObserver()
   }
 }
+
+const Loading: FunctionComponent<{ loading: boolean }> = ({ loading }) => (
+  <div
+    className={classNames(
+      'skeleton absolute inset-0 h-full w-full opacity-100 transition-opacity duration-300',
+      !loading && 'opacity-0'
+    )}
+  />
+)

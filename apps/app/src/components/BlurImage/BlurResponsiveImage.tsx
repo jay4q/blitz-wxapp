@@ -1,17 +1,17 @@
 import { BlurCanvas } from './BlurCanvas'
-import { Block, View } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import classNames from 'classnames'
 import qs from 'query-string'
 import { PureComponent } from 'react'
 
 type Props = {
   /**
-   * @description 图片链接
+   * 图片链接
    */
   src: string
 
   /**
-   * @description 图片样式，请不要填写高度；为什么必填？因为至少需要指定一个宽度
+   * 图片样式，请不要填写高度；为什么必填？因为至少需要指定一个宽度
    */
   className: string
 }
@@ -36,11 +36,11 @@ export class BlurResponsiveImage extends PureComponent<Props> {
     const { className } = this.props
     const { hash, hw } = this.metas
 
-    if (!hash) return <Block></Block>
+    if (!hash) return <></>
 
     return (
       <View className={classNames('relative', className)} style={{ paddingBottom: hw * 100 + '%' }}>
-        <BlurCanvas hash={hash} className='absolute w-full h-full inset-0' />
+        <BlurCanvas hash={hash} className='absolute inset-0 h-full w-full' />
       </View>
     )
   }

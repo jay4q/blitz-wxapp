@@ -28,7 +28,7 @@ export const BlurImage = memo<Props>(
           punch={punch}
           width={resolutionWidth}
           height={resolutionHeight}
-          className='absolute inset-0 w-full h-full'
+          className='absolute inset-0 h-full w-full'
         />
       </View>
     )

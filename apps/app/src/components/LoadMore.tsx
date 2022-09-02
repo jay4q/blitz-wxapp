@@ -13,7 +13,7 @@ type Props = {
  * 加载更多状态按钮
  */
 export const LoadMore = memo<Props>(({ loading, noMore, onLoadMore, className }) => {
-  const actionText = loading ? '正在加载，请稍等;)' : noMore ? '没有更多啦;)' : '👉 点击加载更多'
+  const actionText = loading ? '🏄 加载中' : noMore ? '🤷‍♂️ 没有更多啦' : '👉 点击加载更多'
 
   const onClick = () => {
     if (!loading && !noMore) {
@@ -23,9 +23,9 @@ export const LoadMore = memo<Props>(({ loading, noMore, onLoadMore, className })
 
   return (
     <div
-      className={classNames('w-full pb-6 flex item-center justify-center', constConfig.style.isIPhoneX && 'pb-12', className)}
+      className={classNames('item-center flex w-full justify-center pb-6', constConfig.style.isIPhoneX && 'pb-12', className)}
     >
-      <span className='text-2xl text-gray-6' onClick={onClick}>
+      <span className='text-gray-6 text-2xl' onClick={onClick}>
         {actionText}
       </span>
     </div>
