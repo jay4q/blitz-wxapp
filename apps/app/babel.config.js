@@ -5,7 +5,7 @@ module.exports = {
     [
       'taro',
       {
-        framework: 'react',
+        framework: 'preact',
         ts: true,
       },
     ],
