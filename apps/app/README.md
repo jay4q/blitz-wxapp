@@ -1,11 +1,11 @@
 # 微信小程序
 
-基于 `Taro | React | Typescript` 并依赖腾讯云开发的微信小程序脚手架
+基于 `Taro/React/Typescript` 并依赖腾讯云开发的微信小程序脚手架
 
 ## 环境变量
 
 - 若有自定义特殊的环境变量，直接添加即可
-- 建议使用 `TARO_PUBLIC_` 作为前缀变量名，好区分
+- 建议使用 `WXAPP_PUBLIC_` 作为前缀变量名，好区分
 
 ## 常用脚本
 
@@ -36,7 +36,7 @@ yarn g:icon
 
 ## 注意事项和要求
 
-1. 注意：不要使用 preact，暂时无法兼容 windicss，会出现 `Unsupported framework type` 问题
+1. 注意：使用了 preact 替代 react。测试下来，dev 模式节省 100kb，prod 模式节省 80+kb（节省的目的是加速小程序下载）
 2. 要求：统一使用 [Ant Design 色彩](https://ant.design/docs/spec/colors-cn) 用于系统主色。需要在 `tailwind.config.js` 以及 `src/configs/const.ts` 中定义
 
 ## 参考
@@ -46,6 +46,10 @@ yarn g:icon
 - [支持 windicss](https://github.com/dcasia/mini-program-tailwind)
 
 ## Todo
+
+### 2022.09.05
+
+- [x] feat: 🚀 使用 preact 替换 react
 
 ### 2022.09.02
 

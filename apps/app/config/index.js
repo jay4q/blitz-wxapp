@@ -12,7 +12,13 @@ const config = {
     750: 1,
     828: 1.81 / 2,
   },
-  compiler: 'webpack5',
+  compiler: {
+    type: 'webpack5',
+    // 仅 webpack5 支持依赖预编译配置
+    prebundle: {
+      enable: false,
+    },
+  },
   sourceRoot: 'src',
   outputRoot: '../../wxapp-dist/client',
   plugins: [
@@ -30,7 +36,7 @@ const config = {
     patterns: [],
     options: {},
   },
-  framework: 'react',
+  framework: 'preact',
   mini: {
     runtime: {
       enableInnerHTML: false,
