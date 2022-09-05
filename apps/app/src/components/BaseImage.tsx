@@ -22,12 +22,6 @@ type Props = ImageProps & {
   zoomable?: boolean
 
   /**
-   * blurhash
-   * @see https://github.com/woltapp/blurhash
-   */
-  hash?: string
-
-  /**
    * 点击后可预览的图片组
    */
   previewUrls?: string[]

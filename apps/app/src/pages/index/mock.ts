@@ -61,3 +61,5 @@ export const mockApi = async (current: number): Promise<IResponse<IPagingResp<Ma
     },
   }
 }
+
+export const mockHtml = `<p><span style=\"font-size: 14px;\">👋观众朋友</span><span style=\"color: rgb(231, 95, 51); font-size: 24px;\"><u><em><strong>您好</strong></em></u></span><span style=\"font-size: 14px;\">，欢迎体验我们「Museverse」的参观预约</span></p><p><span style=\"font-size: 14px;\"><strong>我们的参观预约Demo，目前提供了纯线上体验的测试，暂时还没有线下体验哦~</strong></span></p><p><span style=\"font-size: 14px;\"><strong>若您是博物馆、美术馆、景区的相关负责人，也可以直接联系我们免费开通这个「参观预约服务」😊😊😊</strong></span></p><p><img src=\"https://6d75-museum-1g8w6o4l75c810d8-1306317407.tcb.qcloud.la/admin-uploads/cd045e75611b92bf064aa6f7143eb2af/2022-09-05/e25c5d428f754b86b619b72dd690c03c.jpeg?color=%2384b4d4&hash=UKIFMa_3009F%3Fw-%3D%252xvM%7BkCt8t7j%5DRjRPRj&height=925&width=2400\" alt=\"XdkxxQWQMk.jpeg\" data-href=\"\" style=\"\"/></p>`
