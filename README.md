@@ -47,6 +47,8 @@
 
 ## 🤔️ 使用技巧和注意事项
 
+api 和 app 特殊的说明，请见 `apps/*/README.md`
+
 ### 关于 Monorepo
 
 1. 使用 `yarn workspace [work] add [libs]` 为某个特定的工程添加依赖。例如 `yarn workspace app add dayjs`。前提是需要在根目录的 `package.json` 中声明工作区 `workspaces`
@@ -60,6 +62,8 @@
 - [ncc](https://github.com/vercel/ncc)
 - [taro](https://github.com/NervJS/taro)
 - [tailwindcss](https://tailwindcss.com/)
+- [tailwindcss-taro-plugin](https://github.com/dcasia/mini-program-tailwind)
+- [iconfont](https://www.iconfont.cn/)
 
 ## 📒 Todo
 

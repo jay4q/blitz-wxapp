@@ -1,6 +1,7 @@
-import { CallFunctionOptions, IResponse } from './types'
+import { CallFunctionOptions } from './types'
 import { constConfig } from '@/configs'
 import { cloud, showModal } from '@tarojs/taro'
+import { IResponse } from 'db'
 
 const { callFunction: $callFunction } = cloud
 

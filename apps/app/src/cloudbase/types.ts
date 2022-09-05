@@ -1,9 +1,3 @@
-export type IResponse<T = any> = {
-  code: number
-  message: string
-  data?: T
-}
-
 export interface CallFunctionOptions {
   data?: any
   params?: object

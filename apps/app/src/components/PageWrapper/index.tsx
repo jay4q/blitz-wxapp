@@ -1,6 +1,6 @@
 import { PageError } from './PageError'
 import { PageLoading } from './PageLoading'
-import { IResponse } from '@/cloudbase/types'
+import { IResponse } from 'db'
 import { Block } from '@tarojs/components'
 import { FunctionComponent } from 'react'
 
