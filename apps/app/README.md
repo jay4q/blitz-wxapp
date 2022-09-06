@@ -2,12 +2,29 @@
 
 基于 `Taro/React/Typescript` 并依赖腾讯云开发的微信小程序脚手架
 
-## 环境变量
+## 💻 准备工作
 
-- 若有自定义特殊的环境变量，直接添加即可
-- 建议使用 `WXAPP_PUBLIC_` 作为前缀变量名，好区分
+> 请先仔细阅读根目录 README.md 文档
 
-## 常用脚本
+### 环境变量
+
+1. 详见项目更目录的 `.env.example` 并仔细阅读根目录的 `README.md` 中配置环境变量一章
+2. 若有自定义特殊的环境变量，直接添加即可。建议使用 `WXAPP_PUBLIC_` 作为前缀变量名，好区分
+
+### 更新 Iconfont
+
+1. 仔细阅读 [taro-iconfont-cli](https://github.com/iconfont-cli/taro-iconfont-cli) 文档
+   1. 图标前缀默认为 `icon-`，如果有调整，请同时调整 `iconfont.json` 文件（建议不要做命名上的调整）
+   2. 建议使用增量更新，不要随意删除或者重命名图标
+2. 当有新图标上传，登录 [官网](https://www.iconfont.cn/) 获取最新链接，修改 `iconfont.json` 中的 `symbol_url` 参数
+3. 执行 `yarn g:icon` 更新图标
+
+### 更新主题色
+
+1. 主题色是根据 [antd 算法](https://ant.design/docs/spec/colors-cn#%E8%89%B2%E6%9D%BF%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7) 生成
+2. 若需要改变主题色，将根据上述网址生成的主题色，替换掉 `tailwindcss.config.js` 中的 `theme.extend.colors.primary` 配置；同时，更新 `./src/configs/const.ts` 中 `constConfig.colors` 配置
+
+## 👷 常用脚本/操作
 
 ```bash
 # 创建页面组件
@@ -26,15 +43,7 @@ yarn g:icon
 3. 执行 `yarn` 重新安装依赖
 4. 验证项目是否正常运行（一般大版本更新会产生不少问题）
 
-### 更新 Iconfont
-
-1. 仔细阅读 [taro-iconfont-cli](https://github.com/iconfont-cli/taro-iconfont-cli) 文档
-   1. 图标前缀默认为 `icon-`，如果有调整，请同时调整 `iconfont.json` 文件（建议不要做命名上的调整）
-   2. 建议使用增量更新，不要随意删除或者重命名图标
-2. 当有新图标上传，登录 [官网](https://www.iconfont.cn/) 获取最新链接，修改 `iconfont.json` 中的 `symbol_url` 参数
-3. 执行 `yarn g:icon` 更新图标
-
-## 注意事项和要求
+## 🤔️ 注意事项和要求
 
 1. 注意：使用了 preact 替代 react。测试下来，dev 模式节省 100kb，prod 模式节省 80+kb（节省的目的是加速小程序下载）
 2. 要求：统一使用 [Ant Design 色彩](https://ant.design/docs/spec/colors-cn) 用于系统主色。需要在 `tailwind.config.js` 以及 `src/configs/const.ts` 中定义
