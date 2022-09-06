@@ -1,7 +1,7 @@
 import { nativeComponentList } from './components/libs'
 import { pages } from './configs/pages'
 
-export default {
+export default defineAppConfig({
   pages: pages,
   window: {
     backgroundTextStyle: 'light',
@@ -12,4 +12,4 @@ export default {
   usingComponents: {
     ...nativeComponentList,
   },
-}
+})

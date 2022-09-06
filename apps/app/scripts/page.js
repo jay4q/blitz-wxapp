@@ -24,10 +24,9 @@ const Index: FunctionComponent = () => {
 export default Index`
 
 // config模板，可以根据业务调整
-const configTempl = (pageName) => `export default {
+const configTempl = (pageName) => `export default definePageConfig({
   navigationBarTitleText: '${pageName || '自动生成的页面'}',
-}
-`
+})`
 
 function checkPath(relativePath) {
   if (!relativePath) {
