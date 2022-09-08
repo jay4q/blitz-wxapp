@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { showLoading, showDialog, hideLoading, showToast } from '../feedback'
+import { showLoading, showDialog, hideLoading, showToast } from './feedback'
 
 const _saveImageToPhotosAlbum = async (filePath: string) => {
   try {

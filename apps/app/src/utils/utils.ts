@@ -1,6 +1,5 @@
 import { getFileSystemManager, env } from '@tarojs/taro'
 import qs from 'query-string'
-import { CSSProperties } from 'react'
 
 export const wait = async (duration = 1000) => new Promise((resolve) => setTimeout(() => resolve(''), duration))
 
@@ -72,9 +71,3 @@ export const getImageRatio = (url?: string) => {
   const query = qs.parseUrl(url).query
   return (Number(query['height']) || 1) / (Number(query['width']) || 1)
 }
-
-/**
- * 解决子节点在进行透明度变化时，忽略父节点 overflow:hidden 和圆角的问题
- * @see https://stackoverflow.com/questions/42297303/css-opacity-transition-ignoring-overflowhidden-in-chrome-safari
- */
-export const fixOpacityIgnoreHiddenStyle: CSSProperties = { backfaceVisibility: 'hidden', transform: 'translate3d(0, 0, 0)' }
