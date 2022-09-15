@@ -34,6 +34,8 @@ yarn g:page path/to/new-page [页面标题]
 yarn g:icon
 ```
 
+> 注意：若更新图标失败，请进入 `kzl-wxapp/node_modules/taro-iconfont-cli/commands/index.js` 将 `var miniProgramBasePath = 'node_modules/mini-program-iconfont-cli'` 调整为 `var miniProgramBasePath = '../../node_modules/mini-program-iconfont-cli'` 即可
+
 ### 更新 Taro
 
 > 建议不要频繁更新，特别是最新版本。建议待官方发布下一版后，再升级次新版本
