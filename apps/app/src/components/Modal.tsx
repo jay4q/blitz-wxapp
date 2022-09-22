@@ -28,14 +28,14 @@ export class Modal extends PureComponent<Props> {
         <div
           onClick={this.onOverlayClose}
           className={classNames(
-            'absolute inset-0 h-full w-full bg-gray-12 transition-opacity duration-300',
+            'bg-gray-12 absolute inset-0 h-full w-full transition-opacity duration-300',
             visible ? 'opacity-50' : 'opacity-0'
           )}
         ></div>
         <div
           style={{ top: 'calc(50% - 48px)' }}
           className={classNames(
-            'absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition duration-300',
+            'absolute left-1/2 -translate-x-1/2 -translate-y-1/2 transform transition duration-300',
             className,
             visible ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
           )}

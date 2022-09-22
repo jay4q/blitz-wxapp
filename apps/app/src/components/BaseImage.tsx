@@ -111,7 +111,7 @@ export class BaseImage extends PureComponent<Props, State> {
 
   render() {
     const { isLoaded, inView } = this.state
-    const { className, ...restProps } = this.props
+    const { className, children, ...restProps } = this.props
 
     return (
       <div
@@ -139,6 +139,7 @@ export class BaseImage extends PureComponent<Props, State> {
         ) : (
           <Loading loading={!isLoaded} />
         )}
+        {children}
       </div>
     )
   }

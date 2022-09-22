@@ -8,17 +8,17 @@ type Props = {
   loading: boolean
 
   /**
-   * @description 可以调整外部布局，这样可以适用于页面的局部
+   * 可以调整外部布局，这样可以适用于页面的局部
    */
   className?: string
 
   /**
-   * @description 可以传入网络请求数据交给组件判断，或者自行判断传入是否成功
+   * 可以传入网络请求数据交给组件判断，或者自行判断传入是否成功
    */
   data?: IResponse<any> | boolean
 
   /**
-   * @description 自定义的重试方法
+   * 自定义的重试方法
    */
   onReload?: Function
 }

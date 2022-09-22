@@ -49,15 +49,18 @@ export const Dialog: FunctionComponent<Props> = ({
 }) => {
   return (
     <Modal visible={visible} className={className}>
-      <div className='w-[600px] bg-gray-1 rounded-lg'>
-        <h1 className='w-full h-24 leading-[96px] text-[32px] text-center font-medium'>{title}</h1>
-        <div className='w-full p-6 max-h-[512px] overflow-auto' style={{ border: '1px solid #f5f5f5' }}>
+      <div className='bg-gray-1 w-[600px] rounded-lg'>
+        <h1 className='h-24 w-full text-center text-[32px] font-medium leading-[96px]'>{title}</h1>
+        <div
+          className='max-h-[512px] w-full overflow-auto p-6'
+          style={{ borderTop: '1px solid #f5f5f5', borderBottom: '1px solid #f5f5f5' }}
+        >
           {children}
         </div>
-        <div className='w-full p-6 flex flex-row items-center justify-between'>
+        <div className='flex w-full flex-row items-center justify-between p-6'>
           {cancelable && (
             <div
-              className='w-[264px] h-16 leading-[64px] text-center bg-gray-3 rounded-lg text-primary-6 font-medium'
+              className='bg-gray-3 text-primary-6 h-16 w-[264px] rounded-lg text-center font-medium leading-[64px]'
               onClick={onCancel}
             >
               {cancelText}
@@ -65,7 +68,7 @@ export const Dialog: FunctionComponent<Props> = ({
           )}
           <div
             className={classNames(
-              'h-16 leading-[64px] text-center text-gray-1 rounded-lg bg-primary-6 font-medium',
+              'text-gray-1 bg-primary-6 h-16 rounded-lg text-center font-medium leading-[64px]',
               cancelable ? 'w-[264px]' : 'w-full'
             )}
             onClick={onConfirm}

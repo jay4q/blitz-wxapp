@@ -9,12 +9,14 @@ type Props = ViewProps & {
   punch?: number
 
   /**
-   * @description 画布宽度；建议不要超过128，默认32
+   * 画布宽度
+   * @description 建议不要超过128，默认32
    */
   resolutionWidth?: number
 
   /**
-   * @description 画布高度；建议不要超过128，默认32
+   * 画布高度
+   * @description 建议不要超过128，默认32
    */
   resolutionHeight?: number
 }
