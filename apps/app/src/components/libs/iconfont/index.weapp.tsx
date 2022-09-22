@@ -4,7 +4,7 @@
 import React, { FunctionComponent } from 'react';
 import Taro from '@tarojs/taro';
 
-export type IconNames = 'entry-visit-offline' | 'clock' | 'email' | 'leader' | 'pending' | 'group' | 'flag' | 'call' | 'entry-visit' | 'entry-admin' | 'entry-activity' | 'entry-statistics' | 'entry-team' | 'entry-message' | 'copy' | 'entry-audit' | 'entry-volunteer' | 'enter' | 'refresh' | 'menu' | 'scan';
+export type IconNames = 'audio-play' | 'audio-prev' | 'audio-pause' | 'audio-list' | 'audio-next' | 'audio-seq';
 
 interface Props {
   name: IconNames;

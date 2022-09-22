@@ -1,3 +1,4 @@
 export const DB = {
-  user: 'user',
+  audio: 'audio',
+  wx_qrcode: 'wx_qrcode',
 }

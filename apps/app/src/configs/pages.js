@@ -3,6 +3,7 @@
 const paths = {
   // insert
   index: '/pages/index/index',
+  audio: '/pages/audio/index',
 }
 
 const pages = Object.values(paths).map((p) => p.substring(1))

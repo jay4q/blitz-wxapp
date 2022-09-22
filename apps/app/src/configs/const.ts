@@ -14,6 +14,9 @@ const getStatusBarAndNavigatorHeight = () => {
 }
 
 export const constConfig = {
+  app: {
+    name: process.env.WXAPP_PUBLIC_APP_NAME,
+  },
   colors: generate('#1778fe'),
   style: {
     ...getStatusBarAndNavigatorHeight(),

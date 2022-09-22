@@ -1,6 +1,6 @@
 Component({
   properties: {
-    // entry-visit-offline | clock | email | leader | pending | group | flag | call | entry-visit | entry-admin | entry-activity | entry-statistics | entry-team | entry-message | copy | entry-audit | entry-volunteer | enter | refresh | menu | scan
+    // audio-play | audio-prev | audio-pause | audio-list | audio-next | audio-seq
     name: {
       type: String,
     },
