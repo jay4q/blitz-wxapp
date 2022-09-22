@@ -11,5 +11,8 @@ export interface MasonryItemModel {
    */
   title: string
 
-  // todo: 补全其他定义
+  /**
+   * 小程序页面路径
+   */
+  path: string
 }

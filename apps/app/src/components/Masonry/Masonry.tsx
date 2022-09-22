@@ -1,20 +1,25 @@
 import { BaseImage } from '../BaseImage'
 import { MasonryItemModel } from './types'
-import { constConfig, pathConfig } from '@/configs'
 import { getImageRatio } from '@/utils/utils'
 import { navigateTo } from '@tarojs/taro'
 import classNames from 'classnames'
-import { FunctionComponent, PureComponent, ReactNode } from 'react'
+import { CSSProperties, FunctionComponent, PureComponent, ReactNode } from 'react'
 import { ScrollView } from '@tarojs/components'
 import { LoadMore } from '../LoadMore'
 
 type Props = {
+  style?: CSSProperties
   className?: string
 
   /**
-   * 加载中或加载更多中
+   * 列表重新刷新中
    */
-  loading?: boolean
+  reLoading: boolean
+
+  /**
+   * 列表加载更多中
+   */
+  loadingMore: boolean
 
   /**
    * 是否可以继续加载更多
@@ -42,7 +47,7 @@ const itemExtraHeight = 140 + 12
 
 /**
  * 瀑布流
- * @description 类小红书
+ * @description 类小红书；可以搭配 ahooks/useInfiniteScroll 一起使用
  */
 export class Masonry extends PureComponent<Props, State> {
   readonly state: State = {
@@ -57,24 +62,34 @@ export class Masonry extends PureComponent<Props, State> {
   // 从原始列表第几下标开始(用于快速分页)
   private flagIndex = 0
 
+  get loading() {
+    const loading = this.props.reLoading || this.props.loadingMore
+    return loading
+  }
+
   render(): ReactNode {
     const { leftList, rightList } = this.state
-    const { className, noMore, onLoadMore, loading = false } = this.props
+    const { style, className, noMore, onLoadMore } = this.props
 
     return (
-      <ScrollView scrollY className='h-full w-full' onScrollToLower={this.onReachBottom}>
-        <div className='w-full' style={{ height: (constConfig.style.statusBarHeight || 0) + 44 + 'px' }}></div>
-        <div className={classNames('flex w-full flex-row justify-between px-3 pt-0', className)}>
+      <ScrollView
+        scrollY
+        scrollX={false}
+        style={style}
+        className={classNames('relative z-0 h-full max-h-full w-full', className)}
+        onScrollToLower={this.onReachBottom}
+      >
+        <div className='flex w-full flex-row justify-between p-3'>
           <ol className='w-1/2 pr-1.5'>
             {leftList.map((item) => this.renderItem(item))}
-            {loading && <LeftLoading />}
+            {this.loading && <LeftLoading />}
           </ol>
           <ol className='w-1/2 pl-1.5'>
             {rightList.map((item) => this.renderItem(item))}
-            {loading && <RightLoading />}
+            {this.loading && <RightLoading />}
           </ol>
         </div>
-        <LoadMore className='pt-3' loading={loading} noMore={noMore} onLoadMore={onLoadMore} />
+        <LoadMore loading={this.loading} noMore={noMore} onLoadMore={onLoadMore} />
       </ScrollView>
     )
   }
@@ -86,7 +101,10 @@ export class Masonry extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.data.length === 0 && prevProps.data.length !== 0) {
+    if (
+      (this.props.data.length === 0 && prevProps.data.length !== 0) || // 1.列表数据重置
+      (this.props.reLoading && !prevProps.reLoading) // 2. 列表重新刷新
+    ) {
       this.leftH = 0
       this.rightH = 0
       this.flagIndex = 0
@@ -102,7 +120,7 @@ export class Masonry extends PureComponent<Props, State> {
   }
 
   onReachBottom = () => {
-    if (!this.props.loading && !this.props.noMore) {
+    if (!this.loading && !this.props.noMore) {
       this.props.onLoadMore()
     }
   }
@@ -111,7 +129,7 @@ export class Masonry extends PureComponent<Props, State> {
     const imgRatio = getImageRatio(item.cover)
     const imgWidthHeight = `100%,${itemWidth * imgRatio}rpx`
 
-    const onClick = () => navigateTo({ url: pathConfig.picture + `?scene=${item._id}` })
+    const onClick = () => navigateTo({ url: item.path })
 
     return (
       <li className='mb-3 flex w-full flex-col items-center' key={item._id} onClick={onClick}>
