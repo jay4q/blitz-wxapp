@@ -1,12 +1,11 @@
 import Router from '@koa/router'
-import { respond } from 'utils/helper'
+import { audio } from './audio'
 
 const v1 = new Router({
   prefix: '/v1',
 })
 
-v1.get('/alive', async (ctx) => {
-  respond.ok(ctx, 'Hello World 🤖️')
-})
+// 音频
+v1.use(audio.routes())
 
 export { v1 }

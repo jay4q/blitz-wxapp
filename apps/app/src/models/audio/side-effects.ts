@@ -2,7 +2,7 @@ import { useAudioStore } from '.'
 import { audioActions } from './actions'
 import { findPlayingAudio } from './helper'
 import { AudioSideEffects, WillPlayOption } from './types'
-import { getMany } from '@/api/audio/query'
+import { getAlbum } from '@/apis/audio/query'
 import { constConfig } from '@/configs'
 import { hideLoading, showLoading, showToast } from '@/utils/feedback'
 import { BackgroundAudioManager, getBackgroundAudioManager, useDidShow, useDidHide } from '@tarojs/taro'
@@ -126,7 +126,7 @@ export const mountPlayer: AudioSideEffects['mountPlayer'] = (playList, opt) => {
  */
 export const mountPlayerAsync: AudioSideEffects['mountPlayerAsync'] = async (opt) => {
   showLoading('获取音频中...')
-  const willPlayList = await getMany(opt.module, opt.albumId)
+  const willPlayList = await getAlbum(opt.module, opt.albumId)
   hideLoading()
   // 装载音频
   mountPlayer(willPlayList, opt)
