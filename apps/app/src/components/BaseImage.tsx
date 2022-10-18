@@ -1,22 +1,14 @@
-import { BlurImage } from './BlurImage'
 import { Image, ImageProps } from '@tarojs/components'
-import { createIntersectionObserver, Current, previewImage, IntersectionObserver, nextTick } from '@tarojs/taro'
+import Taro, { createIntersectionObserver, useDidShow, previewImage } from '@tarojs/taro'
+import { useDebounceFn } from 'ahooks'
 import classNames from 'classnames'
 import { uuid } from 'db'
 import qs from 'query-string'
-import { FunctionComponent, PureComponent } from 'react'
+import { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { BlurImage } from './BlurImage'
 
-type State = {
-  /**
-   * 图片是否进入视野
-   */
-  inView: boolean
-
-  /**
-   * 图片是否加载完成
-   */
-  isLoaded: boolean
-}
+// 全局存储已经 加载成功的图片
+const ws = new Set()
 
 type Props = ImageProps & {
   zoomable?: boolean
@@ -31,61 +23,35 @@ type Props = ImageProps & {
    * @description 通过,分割；如果不填写单位，将默认使用 rpx
    * @example 128,64
    */
-  wh: string
+  wh?: string
 }
 
-export class BaseImage extends PureComponent<Props, State> {
-  static defaultProps: Partial<Props> = {
-    zoomable: false,
-  }
+const Loading: FunctionComponent<{ loading: boolean }> = ({ loading }) => (
+  <div
+    className={classNames(
+      'skeleton absolute inset-0 h-full w-full opacity-100 transition-opacity duration-300',
+      !loading && 'opacity-0'
+    )}
+  />
+)
 
-  readonly state: State = {
-    inView: false,
-    isLoaded: false,
-  }
+const BaseImage = ({ className, wh = '', children, onLoad, src, zoomable, previewUrls, onClick, ...props }: Props) => {
+  // 图片是否进入视野
+  const [isInView, setIsInView] = useState(!!ws.has(src))
+  // 图片是否加载完成
+  const [isLoaded, setIsLoaded] = useState(!!ws.has(src))
 
-  private imgId = uuid()
-  private observer: IntersectionObserver | null
+  const createObserver = useCallback(() => {
+    return createIntersectionObserver(Taro.getCurrentInstance().page!)
+  }, [])
 
-  onImageClick = (e) => {
-    if (!this.state.isLoaded) return
+  const observerRef = useRef<Taro.IntersectionObserver | undefined>(createObserver())
 
-    const { src, zoomable, onClick, previewUrls } = this.props
+  const imgId = useMemo(() => {
+    return uuid()
+  }, [])
 
-    if (typeof onClick === 'function') {
-      onClick(e)
-    } else if (zoomable) {
-      if (Array.isArray(previewUrls) && previewUrls.length > 0) {
-        previewImage({
-          current: src,
-          urls: previewUrls,
-        })
-      } else {
-        previewImage({
-          urls: [src],
-        })
-      }
-    }
-  }
-
-  onLoadComplete = (e) => {
-    this.setState({ isLoaded: true })
-
-    const { onLoad } = this.props
-    if (typeof onLoad === 'function') {
-      onLoad(e)
-    }
-  }
-
-  disconnectObserver = () => {
-    if (this.observer) {
-      this.observer.disconnect()
-      this.observer = null
-    }
-  }
-
-  get containerStyle() {
-    const { wh = '' } = this.props
+  const containerStyle = useMemo(() => {
     const [width, height] = wh
       .trim()
       .split(',')
@@ -98,89 +64,131 @@ export class BaseImage extends PureComponent<Props, State> {
           return numStr
         }
       })
-    return { width, height }
-  }
 
-  get hash() {
-    const { src } = this.props
+    return { width, height }
+  }, [wh])
+
+  const hash = useMemo(() => {
     if (!src) return undefined
 
     const query = qs.parseUrl(src).query
     return (query['hash'] as string) || ''
-  }
+  }, [src])
 
-  render() {
-    const { isLoaded, inView } = this.state
-    const { className, children, ...restProps } = this.props
+  const handleImageClick = useCallback(
+    (e) => {
+      if (!isLoaded) {
+        return
+      }
 
-    return (
-      <div
-        id={this.imgId}
-        className={classNames('relative overflow-hidden', className)}
-        style={this.containerStyle}
-        onClick={this.onImageClick}
-      >
-        {inView && (
-          <Image
-            {...restProps}
-            className='absolute inset-0 h-full w-full'
-            mode={restProps.mode || 'aspectFill'}
-            onLoad={this.onLoadComplete}
-          />
-        )}
-        {!!this.hash ? (
-          <BlurImage
-            hash={this.hash}
-            className={classNames(
-              'absolute inset-0 h-full w-full opacity-100 transition-opacity duration-300',
-              isLoaded && 'opacity-0'
-            )}
-          />
-        ) : (
-          <Loading loading={!isLoaded} />
-        )}
-        {children}
-      </div>
-    )
-  }
+      if (typeof onClick === 'function') {
+        onClick(e)
+      } else if (zoomable) {
+        if (Array.isArray(previewUrls) && previewUrls.length > 0) {
+          previewImage({
+            current: src,
+            urls: previewUrls,
+          })
+        } else {
+          previewImage({
+            urls: [src],
+          })
+        }
+      }
+    },
+    [isLoaded, onClick, previewUrls, src, zoomable]
+  )
 
-  componentDidMount() {
-    // @see https://docs.taro.zone/docs/react-page#onready-
-    nextTick(() => {
-      this.observer = createIntersectionObserver(Current.page!)
-      this.observer.relativeToViewport({ bottom: 0 }).observe('#' + this.imgId, (res) => {
+  const disconnect = useCallback(() => {
+    if (observerRef.current) {
+      observerRef.current.disconnect()
+      observerRef.current = undefined
+    }
+  }, [observerRef])
+
+  const handleLoadComplete = useCallback(
+    (e) => {
+      setIsLoaded(true)
+      ws.add(src)
+
+      if (typeof onLoad === 'function') {
+        onLoad(e)
+      }
+    },
+    [onLoad, src]
+  )
+
+  const { run: handleRelativeToViewport } = useDebounceFn(
+    () => {
+      if (!observerRef.current) {
+        return
+      }
+
+      if (isInView) {
+        return
+      }
+
+      disconnect()
+
+      observerRef.current = createObserver()
+
+      observerRef.current.relativeToViewport({ bottom: 0 }).observe('#' + imgId, (res) => {
         if (res.boundingClientRect.top >= 0) {
-          this.setState({ inView: true })
-          this.disconnectObserver()
+          setIsInView(true)
+          disconnect()
         }
       })
-    })
+    },
+    { wait: 10 }
+  )
 
-    // @see https://docs.taro.zone/docs/react-page#onready-
-    // const onReadyEventId = getCurrentInstance().router!.onReady
-    // console.log('run?', onReadyEventId)
-    // eventCenter.once(onReadyEventId, () => {
-    //   console.log('run')
-    //   this.observer = createIntersectionObserver(Current.page!)
-    //   this.observer.relativeToViewport({ bottom: 0 }).observe('#' + this.imgId, (res) => {
-    //     if (res.boundingClientRect.top >= 0) {
-    //       this.setState({ inView: true })
-    //       this.disconnectObserver()
-    //     }
-    //   })
-    // })
-  }
+  useEffect(() => {
+    return () => {
+      return disconnect()
+    }
+  }, [disconnect])
 
-  componentWillUnmount() {
-    this.disconnectObserver()
-  }
+  useEffect(() => {
+    handleRelativeToViewport()
+  }, [handleRelativeToViewport])
+
+  useDidShow(() => {
+    handleRelativeToViewport()
+  })
+
+  return (
+    <div
+      id={imgId}
+      className={classNames('relative overflow-hidden', className)}
+      style={containerStyle}
+      onClick={handleImageClick}
+    >
+      {isInView && (
+        <Image
+          {...{
+            src,
+            onLoad,
+            ...props,
+          }}
+          className='absolute inset-0 h-full w-full'
+          mode={props.mode || 'aspectFill'}
+          onLoad={handleLoadComplete}
+        />
+      )}
+      {!!hash ? (
+        <BlurImage
+          hash={hash}
+          className={classNames(
+            'absolute inset-0 h-full w-full opacity-100 transition-opacity duration-300',
+            isLoaded && 'opacity-0'
+          )}
+        />
+      ) : (
+        <Loading loading={!isLoaded} />
+      )}
+      {children}
+    </div>
+  )
 }
 
-const Loading: FunctionComponent<{ loading: boolean }> = ({ loading }) => (
-  <div
-    className={classNames(
-      'skeleton absolute inset-0 h-full w-full opacity-100 transition-opacity duration-300',
-      !loading && 'opacity-0'
-    )}
-  />
-)
+export { BaseImage }
