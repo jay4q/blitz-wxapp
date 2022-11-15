@@ -20,7 +20,7 @@ export interface UserWxModel extends BaseModel, BaseUserModel {
   /**
    * 微信平台统一ID
    */
-  union_id: string
+  union_id?: string
 
   /**
    * 微信小程序的用户ID
