@@ -1,13 +1,11 @@
-import { BaseImage } from '../BaseImage'
-import { MasonryItemModel } from './types'
 import { getImageRatio } from '@/utils/utils'
-import { navigateTo } from '@tarojs/taro'
+import { ScrollView } from '@tarojs/components'
 import classNames from 'classnames'
 import { CSSProperties, FunctionComponent, PureComponent, ReactNode } from 'react'
-import { ScrollView } from '@tarojs/components'
 import { LoadMore } from '../LoadMore'
+import { BaseMasonryItemModel, MASONRY_ITEM_WIDTH } from './types'
 
-type Props = {
+export type MasonryProps<T extends BaseMasonryItemModel> = {
   style?: CSSProperties
   className?: string
 
@@ -29,28 +27,36 @@ type Props = {
   /**
    * 瀑布流原始数组
    */
-  data: MasonryItemModel[]
+  data: T[]
+
+  /**
+   * 单个瀑布流项的非图片高度，单位rpx
+   * @description 用于协助计算瀑布流（包括上下margin）
+   */
+  itemHeight: number
 
   /**
    * 加载更多
    */
   onLoadMore: Function
+
+  /**
+   * 渲染单个瀑布流项
+   */
+  renderItem: (item: T) => JSX.Element
 }
 
-type State = {
-  leftList: MasonryItemModel[]
-  rightList: MasonryItemModel[]
+type State<T extends BaseMasonryItemModel> = {
+  leftList: T[]
+  rightList: T[]
 }
-
-const itemWidth = (750 - 12 * 3) / 2
-const itemExtraHeight = 140 + 12
 
 /**
+ * ! 注意此处用 scroll-view 仅为获取其触底回调能力（调试样式真的麻烦）
  * 瀑布流
- * @description 类小红书；可以搭配 ahooks/useInfiniteScroll 一起使用
  */
-export class Masonry extends PureComponent<Props, State> {
-  readonly state: State = {
+export class Masonry<T extends BaseMasonryItemModel> extends PureComponent<MasonryProps<T>, State<T>> {
+  readonly state: State<T> = {
     leftList: [],
     rightList: [],
   }
@@ -69,7 +75,7 @@ export class Masonry extends PureComponent<Props, State> {
 
   render(): ReactNode {
     const { leftList, rightList } = this.state
-    const { style, className, noMore, onLoadMore } = this.props
+    const { style, className, noMore, onLoadMore, renderItem } = this.props
 
     return (
       <ScrollView
@@ -81,11 +87,11 @@ export class Masonry extends PureComponent<Props, State> {
       >
         <div className='flex w-full flex-row justify-between p-3'>
           <ol className='w-1/2 pr-1.5'>
-            {leftList.map((item) => this.renderItem(item))}
+            {leftList.map((item) => renderItem(item))}
             {this.loading && <LeftLoading />}
           </ol>
           <ol className='w-1/2 pl-1.5'>
-            {rightList.map((item) => this.renderItem(item))}
+            {rightList.map((item) => renderItem(item))}
             {this.loading && <RightLoading />}
           </ol>
         </div>
@@ -100,7 +106,7 @@ export class Masonry extends PureComponent<Props, State> {
     }
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: MasonryProps<T>) {
     if (
       (this.props.data.length === 0 && prevProps.data.length !== 0) || // 1.列表数据重置
       (this.props.reLoading && !prevProps.reLoading) // 2. 列表重新刷新
@@ -125,37 +131,17 @@ export class Masonry extends PureComponent<Props, State> {
     }
   }
 
-  renderItem = (item: MasonryItemModel) => {
-    const imgRatio = getImageRatio(item.cover)
-    const imgWidthHeight = `100%,${itemWidth * imgRatio}rpx`
-
-    const onClick = () => navigateTo({ url: item.path })
-
-    return (
-      <li className='mb-3 flex w-full flex-col items-center' key={item._id} onClick={onClick}>
-        {item.cover ? (
-          <BaseImage wh={imgWidthHeight} src={item.cover} className='w-full overflow-hidden rounded-t-lg' />
-        ) : (
-          <div className='bg-gray-6 w-full rounded-t-lg' style={{ height: itemWidth + 'rpx' }}></div>
-        )}
-        <div className='bg-gray-1 relative w-full rounded-b-lg px-4 pt-8 pb-6'>
-          <h1 className='line-clamp-2 mb-2 font-medium leading-10'>{item.title}</h1>
-        </div>
-      </li>
-    )
-  }
-
   handleMasonry = () => {
-    const { data = [] } = this.props
+    const { itemHeight, data = [] } = this.props
 
-    let todoLeftList: MasonryItemModel[] = []
-    let todoRightList: MasonryItemModel[] = []
+    let todoLeftList: T[] = []
+    let todoRightList: T[] = []
 
     for (let i = this.flagIndex; i < data.length; i++) {
       // 列表单项高度 = 图片展示高度 + 其它元素高度 + 间距
-      const height = itemWidth * getImageRatio(data[i].cover) + itemExtraHeight
+      const height = MASONRY_ITEM_WIDTH * getImageRatio(data[i].cover) + itemHeight
 
-      if (this.leftH < this.rightH) {
+      if (this.leftH <= this.rightH) {
         todoLeftList.push(data[i])
         this.leftH += height
       } else {
@@ -178,11 +164,15 @@ const LeftLoading: FunctionComponent = () => (
   <div className='w-full'>
     <div className='skeleton mb-3 h-80 w-full rounded-lg'></div>
     <div className='skeleton mb-3 h-40 w-full rounded-lg'></div>
+    <div className='skeleton mb-3 h-80 w-full rounded-lg'></div>
+    <div className='skeleton mb-3 h-40 w-full rounded-lg'></div>
   </div>
 )
 
 const RightLoading: FunctionComponent = () => (
   <div className='w-full'>
+    <div className='skeleton mb-3 h-40 w-full rounded-lg'></div>
+    <div className='skeleton mb-3 h-80 w-full rounded-lg'></div>
     <div className='skeleton mb-3 h-40 w-full rounded-lg'></div>
     <div className='skeleton mb-3 h-80 w-full rounded-lg'></div>
   </div>
