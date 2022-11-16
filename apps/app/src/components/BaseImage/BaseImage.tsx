@@ -6,7 +6,8 @@ import { uuid } from 'db'
 import qs from 'query-string'
 import { FunctionComponent, useCallback, useMemo, useState } from 'react'
 import { BlurImage } from '../BlurImage'
-import { canOptimized, useRelativeToViewport } from './index.helper'
+import { BLURHASH_ENABLED } from '../BlurImage/helper'
+import { useRelativeToViewport } from './index.helper'
 
 // 全局存储已经 加载成功的图片
 const ws = new Set()
@@ -90,7 +91,7 @@ const BaseImage = ({
       return undefined
     }
 
-    if (!canOptimized) {
+    if (!BLURHASH_ENABLED) {
       return undefined
     }
 

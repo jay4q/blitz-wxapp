@@ -1,23 +1,6 @@
-import { canIUse, createIntersectionObserver, getCurrentInstance, useDidShow, getSystemInfoSync } from '@tarojs/taro'
+import { createIntersectionObserver, getCurrentInstance, useDidShow } from '@tarojs/taro'
 import { useDebounceFn } from 'ahooks'
 import { useCallback, useEffect, useRef, useState } from 'react'
-
-/**
- * 图片是否可以进行图片优化（懒加载、模糊图）
- */
-export const canOptimized = (() => {
-  if (!canIUse('createOffscreenCanvas')) {
-    return false
-  }
-
-  const systemInfo = getSystemInfoSync()
-
-  if (systemInfo.platform === 'windows' || systemInfo.platform === 'mac') {
-    return false
-  }
-
-  return true
-})()
 
 export const useRelativeToViewport = ({
   targetSelector,
