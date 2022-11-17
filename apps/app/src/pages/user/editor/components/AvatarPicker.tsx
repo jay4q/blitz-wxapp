@@ -67,9 +67,9 @@ export const AvatarPicker: FunctionComponent<Props> = ({ value, onChange }) => {
   return (
     <div className='mb-16 flex flex-col items-center' onClick={onAvatarChange}>
       {!!value ? (
-        <Image className='h-36 w-36 rounded-full' src={value} mode='aspectFill' />
+        <Image className='h-40 w-40 rounded-full' src={value} mode='aspectFill' />
       ) : (
-        <div className='bg-gray-6 h-36 w-36 rounded-full'></div>
+        <div className='bg-gray-6 h-40 w-40 rounded-full'></div>
       )}
       <div className='text-primary-6 mt-3'>更换头像</div>
     </div>

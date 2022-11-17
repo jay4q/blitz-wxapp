@@ -47,6 +47,7 @@ const Page: FunctionComponent = () => {
 
       return true
     },
+    submittingMsg: '更新资料中',
     onSubmit: async (values) => {
       // ! 个人信息没有变化，就没必要发起请求直接成功
       if (values.avatar === userInfo?.avatar && values.username === userInfo?.username) {
