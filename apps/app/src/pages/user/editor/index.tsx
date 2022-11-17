@@ -56,15 +56,19 @@ const Page: FunctionComponent = () => {
 
       let avatar: string | undefined
 
-      if (!!values.avatar && !isCloudUrl(values.avatar)) {
-        // ! 先将本地上传至云存储再保存
-        avatar = await uploadImage(values.avatar)
+      if (!!values.avatar) {
+        if (!isCloudUrl(values.avatar)) {
+          // ! 先将本地上传至云存储再保存
+          avatar = await uploadImage(values.avatar)
 
-        if (!!avatar) {
-          incAvatarUploadCount()
-          handleChange('avatar')(avatar)
+          if (!!avatar) {
+            incAvatarUploadCount()
+            handleChange('avatar')(avatar)
+          } else {
+            return false
+          }
         } else {
-          return false
+          avatar = values.avatar
         }
       }
 

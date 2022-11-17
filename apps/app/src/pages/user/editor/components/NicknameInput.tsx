@@ -31,8 +31,7 @@ export const NicknameInput: FunctionComponent<Props> = ({ value, onChange }) => 
       <Input
         {...handlers}
         type='nickname'
-        value={value} // 这里其实是初始值
-        placeholder='微信用户'
+        value={value} // ! 这里其实是初始值
         className='h-24 w-full text-[28px]'
         placeholderStyle='color:#bfbfbf;font-size:28rpx'
       />

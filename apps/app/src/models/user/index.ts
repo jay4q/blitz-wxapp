@@ -6,6 +6,7 @@ import create from 'zustand'
 type State = {
   /**
    * 是否正在获取用户信息
+   * @description 值得注意的是，第一次必然在加载过程中
    */
   loading: boolean
 
@@ -65,7 +66,7 @@ const useUser = create<State>((set) => {
   }
 
   return {
-    loading: false,
+    loading: true,
     userInfo: undefined,
     getUserInfo,
     updateUserInfo,
