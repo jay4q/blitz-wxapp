@@ -26,6 +26,12 @@ export const getCloudUrl = (url?: string) => {
 }
 
 /**
+ * 判断是否是云存储链接
+ * @param url
+ */
+export const isCloudUrl = (url: string) => url.includes('tcb.qcloud.la')
+
+/**
  * 上传图片至云存储
  * @description 注意这里返回的是云存储的https路径
  * @param file

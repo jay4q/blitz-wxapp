@@ -1,8 +1,12 @@
 import { getUser, updateUser } from '@/apis/user/query'
 import { UpdateUserReq, UserModel } from 'db'
+import { useEffect } from 'react'
 import create from 'zustand'
 
 type State = {
+  /**
+   * 是否正在获取用户信息
+   */
   loading: boolean
 
   /**
@@ -22,18 +26,18 @@ type State = {
   updateUserInfo: (req: UpdateUserReq) => Promise<boolean>
 }
 
-export const useUser = create<State>((set) => {
-  const openLoading = () => set({ loading: true })
-  const closeLoading = () => set({ loading: false })
-
+/**
+ * 用户全局信息管理工具
+ */
+const useUser = create<State>((set) => {
   const getUserInfo: typeof getUser = async () => {
-    openLoading()
+    set({ loading: true })
     const resp = await getUser()
 
     if (resp?.data) {
       set({ userInfo: resp.data, loading: false })
     } else {
-      closeLoading()
+      set({ loading: false })
     }
 
     return resp
@@ -41,13 +45,11 @@ export const useUser = create<State>((set) => {
 
   const updateUserInfo = async (req: UpdateUserReq) => {
     try {
-      openLoading()
       const resp = await updateUser(req)
 
       if (!!resp.data) {
         set((prevState) => ({
           ...prevState,
-          loading: false,
           userInfo: {
             ...prevState.userInfo!, // ! 若能更新用户信息，那本地必然存有一份老的
             ...req,
@@ -58,7 +60,6 @@ export const useUser = create<State>((set) => {
         throw new Error('拿不到个人信息')
       }
     } catch (e) {
-      closeLoading()
       return false
     }
   }
@@ -70,3 +71,24 @@ export const useUser = create<State>((set) => {
     updateUserInfo,
   }
 })
+
+/**
+ * 初始化用户信息
+ * @description 若已初始化过，就不会重复触发
+ */
+const useUserInit = () => {
+  const userState = useUser()
+  const { getUserInfo, userInfo } = userState
+  const isDataReady = !!userInfo
+
+  useEffect(() => {
+    if (!isDataReady) {
+      // ! 仅用户数据不存在时，才会尝试获取
+      getUserInfo()
+    }
+  }, [isDataReady])
+
+  return { ...userState, isDataReady }
+}
+
+export { useUser, useUserInit }

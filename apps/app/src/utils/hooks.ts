@@ -1,47 +1,80 @@
 import { useCallback, useState } from 'react'
+import { hideLoading, showLoading } from './feedback'
 
 /**
- * @description 复杂内容的弹窗控制器
- * @param initVisible 
- * @param initialInfo 
+ * 复杂内容的弹窗控制器
+ * @param initVisible
+ * @param initialData
  */
-export const useModal = <ExtralInfo = any>(initVisible = false, initialInfo?: ExtralInfo) => {
+export const useModal = <T = any>(initVisible = false, initialData?: T) => {
   const [state, setModal] = useState({
     visible: initVisible,
-    extraInfo: initialInfo
+    modalData: initialData,
   })
 
-  const openModal = useCallback((nextInfo?: ExtralInfo) => {
+  const openModal = useCallback((nextData?: T) => {
     setModal({
       visible: true,
-      extraInfo: nextInfo,
+      modalData: nextData,
     })
   }, [])
 
   const closeModal = useCallback(() => {
-    setModal(prevState => ({
+    setModal((prevState) => ({
       visible: false,
-      extraInfo: prevState.extraInfo
+      modalData: prevState.modalData,
     }))
   }, [])
 
   return {
     ...state,
     openModal,
-    closeModal
+    closeModal,
   }
 }
 
 /**
- * @description 简单的表单控制工具
- * @param initialData 
+ * 简单的表单控制工具
+ * @param initialData
  */
-export const useForm = <T = object>(initialData?: T) => {
-  const [values, setForm] = useState<T>(initialData || {} as T)
-  const handleChange = useCallback((name: keyof T) => (v: any) => setForm(vs => ({ ...vs, [name]: v })), [])
+export const useForm = <T = object, R = any>(props: {
+  initialData?: T
+  submittingMsg?: string
+  onSubmit: (values: T) => Promise<R>
+  onBeforeSubmit?: (values: T) => boolean
+  onAfterSubmit?: (result: R) => void
+}) => {
+  const { initialData, onBeforeSubmit, onSubmit, onAfterSubmit, submittingMsg = '资料提交中' } = props
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [values, setForm] = useState<T>(initialData || ({} as T))
+  const handleChange = useCallback((name: keyof T) => (v: any) => setForm((vs) => ({ ...vs, [name]: v })), [])
+
+  const handleSubmit = async () => {
+    if (!!onBeforeSubmit && !onBeforeSubmit(values)) {
+      // 校验不通过
+      return
+    }
+
+    showLoading(submittingMsg)
+    setIsSubmitting(true)
+
+    const result = await onSubmit(values)
+
+    setIsSubmitting(false)
+    hideLoading()
+
+    if (!!onAfterSubmit) {
+      onAfterSubmit(result)
+    }
+
+    return result
+  }
 
   return {
     values,
-    handleChange
+    isSubmitting,
+    handleChange,
+    handleSubmit,
   }
 }
