@@ -17,7 +17,8 @@
     "prettier": "latest",
     "turbo": "latest",
     "@trivago/prettier-plugin-sort-imports": "latest",
-    "prettier-plugin-tailwindcss": "^0.1.13"
+    "prettier-plugin-tailwindcss": "latest",
+    "prettier-plugin-jsdoc": "latest"
   },
   "engines": {
     "npm": ">=7.0.0",
