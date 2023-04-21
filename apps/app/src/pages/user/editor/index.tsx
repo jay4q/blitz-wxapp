@@ -7,8 +7,7 @@ import { useForm } from '@/utils/hooks'
 import { navigateBack } from '@tarojs/taro'
 import { UpdateUserReq } from 'db'
 import { FunctionComponent } from 'react'
-import { AvatarPicker, incAvatarUploadCount } from './components/AvatarPicker'
-import { NicknameInput } from './components/NicknameInput'
+import { AvatarPicker, Input, incAvatarUploadCount } from '@/components/form'
 import './index.css'
 
 // 编辑资料
@@ -80,9 +79,11 @@ const Page: FunctionComponent = () => {
 
   return (
     <>
-      <main className='flex w-full flex-col items-center p-6'>
-        <AvatarPicker value={values.avatar} onChange={handleChange('avatar')} />
-        <NicknameInput value={values.username} onChange={handleChange('username')} />
+      <main className='flex w-full flex-grow flex-col items-center p-6'>
+        <AvatarPicker value={values.avatar} className='mb-8' onChange={handleChange('avatar')} />
+        <Input type='nickname' value={values.username} onChange={handleChange('username')}>
+          昵称
+        </Input>
       </main>
       <BottomSubmit title={isSubmitting ? '更新资料中...' : '确认更新'} disabled={isSubmitting} onClick={handleSubmit} />
     </>
