@@ -8,6 +8,7 @@
 
 - `apps/app`: 微信小程序
 - `apps/api`: 模拟 RESTful 能力的微信小程序云函数
+- `apps/phone-api`: 配合 `wx.getPhoneNumber` 解码微信侧手机号
 - `packages/db`: 表、表结构定义、数据传输对象定义(dto)等，还有可以放一些常用函数
 
 ## 💻 准备开发
@@ -69,6 +70,8 @@ api 和 app 特殊的说明，请见 `apps/*/README.md`
 
 - [ ] feat: 🚀 支持授权获取手机号
 - [ ] feat: 🚀 支持 ci
+- [ ] feat: 🚀 替换 tailwindcss 库
+- [ ] feat: 🚀 使用 [alias](https://taro-docs.jd.com/docs/config-detail#alias) 替换 webpack 插件
 
 ### 2023.04.21
 

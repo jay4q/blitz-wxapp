@@ -1,0 +1,16 @@
+{
+  "name": "phone-api",
+  "version": "1.0.0",
+  "description": "nodejs restful function api",
+  "scripts": {
+    "deploy": "zx ./scripts/deploy.mjs"
+  },
+  "author": "jay4qqqq@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.3.2",
+    "@vercel/ncc": "^0.33.0",
+    "typescript": "4.2.3",
+    "zx": "^4.2.0"
+  }
+}

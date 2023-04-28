@@ -1,0 +1,14 @@
+.DS_STORE
+
+# outputs
+dist/
+functions/
+
+# deps
+node_modules
+yarn-error.log
+yarn.lock
+
+# env
+.env.dev
+.env.prod

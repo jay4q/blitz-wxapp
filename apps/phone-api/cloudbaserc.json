@@ -1,0 +1,17 @@
+{
+  "envId": "{{env.WXAPP_PUBLIC_TCB_ENV}}",
+  "functionRoot": "./functions",
+  "functions": [
+    {
+      "name": "wxapp-phone-api",
+      "timeout": 10,
+      "runtime": "Nodejs12.16",
+      "installDependency": false,
+      "handler": "index.main",
+      "memorySize": 256,
+      "envVariables": {
+        "TZ": "Asia/Shanghai"
+      }
+    }
+  ]
+}
