@@ -27,7 +27,7 @@ export const Input: FunctionComponent<Props> = ({ value, onChange, children, cla
   }, [onChange])
 
   return (
-    <div className={classNames('bg-gray-1 h-25 flex w-full items-center justify-between rounded-2xl px-6', className)}>
+    <div className={classNames('bg-gray-1 flex h-[100px] w-full items-center justify-between rounded-2xl px-6', className)}>
       <h1 className='text-gray-7 mr-6 flex-shrink-0'>
         {required && '*'}
         {children}

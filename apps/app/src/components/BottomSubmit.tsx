@@ -24,8 +24,10 @@ export const BottomSubmit: FunctionComponent<Props> = ({ title, onClick, disable
   return (
     <div className={classNames('bg-gray-1 w-full p-6', constConfig.style.isIPhoneX && 'pb-12')}>
       <div
-        className={classNames('text-gray-1 h-22 leading-22 w-full text-center', disabled ? 'bg-gray-6' : 'bg-primary-6')}
-        style={{ fontSize: '32rpx', borderRadius: '44rpx' }}
+        className={classNames(
+          'text-gray-1 h-[88px] w-full rounded-[44px] text-center text-[32px] leading-[88px]',
+          disabled ? 'bg-gray-6' : 'bg-primary-6'
+        )}
         onClick={onClick}
       >
         {title}

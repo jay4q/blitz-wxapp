@@ -2,7 +2,6 @@ import './app.css'
 import './utils/polyfill'
 import { initCloudbase } from '@/cloudbase'
 import { Component } from 'react'
-import 'windi.css'
 
 // ! 记得初始化云开发
 initCloudbase()

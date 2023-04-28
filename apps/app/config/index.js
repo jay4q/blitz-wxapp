@@ -1,11 +1,12 @@
 const path = require('path')
+const { UnifiedWebpackPluginV5 } = require('weapp-tailwindcss-webpack-plugin')
 
 const { appEnv } = require('./env')
 const { relativePathAlias } = require('./relativePath')
 
 const config = {
   env: appEnv, // ! 使用自定义的环境变量
-  projectName: 'album',
+  projectName: 'app',
   date: '2021-07-16',
   designWidth: 750,
   deviceRatio: {
@@ -20,19 +21,13 @@ const config = {
       enable: false,
     },
   },
+  cache: {
+    enable: false, // ! 配合 tailwindcss 使用时应该关闭
+  },
   alias: relativePathAlias,
   sourceRoot: 'src',
   outputRoot: '../../wxapp-dist/client',
-  plugins: [
-    '@tarojs/plugin-html',
-    [
-      '@dcasia/mini-program-tailwind-webpack-plugin/dist/taro',
-      {
-        enableRpx: true,
-        enableDebugLog: process.env.NODE_ENV === 'development' ? false : true,
-      },
-    ],
-  ],
+  plugins: ['@tarojs/plugin-html'],
   defineConstants: {},
   copy: {
     patterns: [],
@@ -43,11 +38,21 @@ const config = {
     runtime: {
       enableInnerHTML: false,
     },
-    // /** @see https://github.com/Yatoo2018/webpack-chain/tree/zh-cmn-Hans */
-    // webpackChain(chain, webpack) {
-    //   // 支持绝对路径
-    //   chain.resolve.plugin('tsConfigPath').use(TsconfigPathsPlugin)
-    // },
+    webpackChain(chain, webpack) {
+      // 注册tailwindcss
+      chain.merge({
+        plugin: {
+          install: {
+            plugin: UnifiedWebpackPluginV5,
+            args: [
+              {
+                appType: 'taro',
+              },
+            ],
+          },
+        },
+      })
+    },
     postcss: {
       pxtransform: {
         enable: true,
@@ -57,6 +62,16 @@ const config = {
         enable: true,
         config: {
           limit: 1024, // 设定转换尺寸上限
+        },
+      },
+      // @see https://github.com/sonofmagic/weapp-tailwindcss-webpack-plugin/issues/155
+      // 设置成 false 表示 不去除 * 相关的选择器区块
+      // 假如开启这个配置，它会把 tailwindcss 整个 css var 的区域块直接去除掉
+      // 需要用 config 套一层，官方文档上是错的
+      htmltransform: {
+        enable: false,
+        config: {
+          removeCursorStyle: true,
         },
       },
       cssModules: {

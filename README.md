@@ -1,7 +1,5 @@
 # 微信小程序+云开发
 
-> 若需要搭配使用管理端，请联系开发者获取 `blitz-console` 脚手架
-
 ## 📦 工程结构
 
 > 每个子工程包都是用 typescript 编写
@@ -70,11 +68,12 @@ api 和 app 特殊的说明，请见 `apps/*/README.md`
 
 - [ ] feat: 🚀 支持授权获取手机号
 - [ ] feat: 🚀 支持 ci
-- [ ] feat: 🚀 替换 tailwindcss 库
 
 ### 2023.04.28
 
-- [x] feat: 🚀 使用 [alias](https://taro-docs.jd.com/docs/config-detail#alias) 替换 webpack 插件
+- [x] refactor: 🎸 使用 [alias](https://taro-docs.jd.com/docs/config-detail#alias) 替换 webpack 插件
+- [x] refactor: 🎸 将 taro 升级至 3.6+
+- [x] refactor: 🎸 替换 tailwindcss 库
 
 ### 2023.04.21
 

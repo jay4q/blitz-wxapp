@@ -9,22 +9,20 @@ import { BlurImage } from '../BlurImage'
 import { BLURHASH_ENABLED } from '../BlurImage/helper'
 import { useRelativeToViewport } from './index.helper'
 
-// 全局存储已经 加载成功的图片
-const ws = new Set()
-
 type Props = Omit<ImageProps, 'style'> & {
   src?: string
   zoomable?: boolean
 
-  /**
-   * 点击后可预览的图片组
-   */
+  /** 点击后可预览的图片组 */
   previewUrls?: string[]
 
   /**
    * 用于快速设置图片宽高
-   * @description 通过,分割；如果不填写单位，将默认使用 rpx
-   * @example 128,64
+   *
+   * 通过,分割；如果不填写单位，将默认使用 rpx
+   *
+   * @example
+   *   128, 64
    */
   wh?: string
 
@@ -35,15 +33,16 @@ type Props = Omit<ImageProps, 'style'> & {
 const Loading: FunctionComponent<{ loading: boolean }> = ({ loading }) => (
   <div
     className={classNames(
-      'skeleton absolute inset-0 h-full w-full opacity-100 transition-opacity duration-300',
-      !loading && 'opacity-0'
+      'skeleton absolute inset-0 h-full w-full transition-opacity duration-300',
+      loading ? 'opacity-100' : 'opacity-0'
     )}
   />
 )
 
 /**
  * 通用图片展示组件
- * @description 支持懒加载、模糊图/纯色图占位
+ *
+ * 支持懒加载、模糊图/纯色图占位
  */
 const BaseImage = ({
   className,
@@ -63,11 +62,11 @@ const BaseImage = ({
   // 图片是否进入视野
   const isInView = useRelativeToViewport({
     targetSelector: `#${imgId}`,
-    initialValue: !!ws.has(src),
+    initialValue: false,
   })
 
   // 图片是否加载完成
-  const [isLoaded, setIsLoaded] = useState(!!ws.has(src))
+  const [isLoaded, setIsLoaded] = useState(false)
 
   const containerStyle = useMemo(() => {
     const [width, height] = wh
@@ -135,7 +134,6 @@ const BaseImage = ({
   const handleLoadComplete = useCallback(
     (e) => {
       setIsLoaded(true)
-      ws.add(src)
 
       if (typeof onLoad === 'function') {
         onLoad(e)
@@ -150,8 +148,8 @@ const BaseImage = ({
         <BlurImage
           hash={placeholderHash}
           className={classNames(
-            'absolute inset-0 h-full w-full opacity-100 transition-opacity duration-300',
-            isLoaded && 'opacity-0'
+            'absolute inset-0 h-full w-full transition-opacity duration-300',
+            isLoaded ? 'opacity-0' : 'opacity-100'
           )}
         />
       )
@@ -161,8 +159,8 @@ const BaseImage = ({
       return (
         <div
           className={classNames(
-            'absolute inset-0 h-full w-full opacity-100 transition-opacity duration-300',
-            isLoaded && 'opacity-0'
+            'absolute inset-0 h-full w-full transition-opacity duration-300',
+            isLoaded ? 'opacity-0' : 'opacity-100'
           )}
           style={{ backgroundColor: placeholderColor }}
         />
