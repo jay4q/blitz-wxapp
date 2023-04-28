@@ -71,7 +71,10 @@ api 和 app 特殊的说明，请见 `apps/*/README.md`
 - [ ] feat: 🚀 支持授权获取手机号
 - [ ] feat: 🚀 支持 ci
 - [ ] feat: 🚀 替换 tailwindcss 库
-- [ ] feat: 🚀 使用 [alias](https://taro-docs.jd.com/docs/config-detail#alias) 替换 webpack 插件
+
+### 2023.04.28
+
+- [x] feat: 🚀 使用 [alias](https://taro-docs.jd.com/docs/config-detail#alias) 替换 webpack 插件
 
 ### 2023.04.21
 

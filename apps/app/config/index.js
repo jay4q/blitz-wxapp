@@ -1,6 +1,7 @@
 const path = require('path')
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+
 const { appEnv } = require('./env')
+const { relativePathAlias } = require('./relativePath')
 
 const config = {
   env: appEnv, // ! 使用自定义的环境变量
@@ -19,6 +20,7 @@ const config = {
       enable: false,
     },
   },
+  alias: relativePathAlias,
   sourceRoot: 'src',
   outputRoot: '../../wxapp-dist/client',
   plugins: [
@@ -41,13 +43,11 @@ const config = {
     runtime: {
       enableInnerHTML: false,
     },
-    /**
-     * @see https://github.com/Yatoo2018/webpack-chain/tree/zh-cmn-Hans
-     */
-    webpackChain(chain, webpack) {
-      // 支持绝对路径
-      chain.resolve.plugin('tsConfigPath').use(TsconfigPathsPlugin)
-    },
+    // /** @see https://github.com/Yatoo2018/webpack-chain/tree/zh-cmn-Hans */
+    // webpackChain(chain, webpack) {
+    //   // 支持绝对路径
+    //   chain.resolve.plugin('tsConfigPath').use(TsconfigPathsPlugin)
+    // },
     postcss: {
       pxtransform: {
         enable: true,
@@ -68,23 +68,7 @@ const config = {
       },
     },
   },
-  h5: {
-    publicPath: '/',
-    staticDirectory: 'static',
-    postcss: {
-      autoprefixer: {
-        enable: true,
-        config: {},
-      },
-      cssModules: {
-        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
-        config: {
-          namingPattern: 'module', // 转换模式，取值为 global/module
-          generateScopedName: '[name]__[local]___[hash:base64:5]',
-        },
-      },
-    },
-  },
+  h5: {},
 }
 
 module.exports = function (merge) {
